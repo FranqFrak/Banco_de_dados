@@ -1,0 +1,73 @@
+CREATE DATABASE maternidade
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
+
+-- DROP DATABASE maternidade;
+
+USE maternidade;
+
+-- Cria a tabela mãe
+CREATE TABLE mae(
+	id_mae INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    telefone VARCHAR(11),
+    endereco VARCHAR(100),
+    dt_nasc DATE 
+);
+
+-- Mostra as colunas da tabela mãe
+DESCRIBE mae;
+
+-- Cria a tabela médico
+CREATE TABLE medico(
+	id_medico INT PRIMARY KEY AUTO_INCREMENT,
+    crm_medico VARCHAR(8),
+    nome VARCHAR(40), 
+	especialidade ENUM("Geral", "Pediatra", "Obstetra", "Cirurgião") DEFAULT "Geral"
+);
+
+-- Mostra as colunas da tabela médico
+DESCRIBE medico;
+
+-- Cria a tabela bebê
+CREATE TABLE bebe(
+	id_bebe INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50),
+	sexo CHAR(1),
+    peso_nasc DECIMAL(5,3),
+    altura DECIMAL(4,2),
+    dt_nasc DATETIME DEFAULT CURRENT_TIMESTAMP,
+    mae_id INT,
+    medico_id INT,
+    FOREIGN KEY (mae_id) REFERENCES mae(id_mae),
+    FOREIGN KEY (medico_id) REFERENCES medico(id_medico)
+);
+-- Mostra as colunas da tabela bebê
+DESCRIBE bebe;
+
+-- Mostra os registros das tabelas
+SELECT * FROM mae;
+SELECT * FROM medico;
+SELECT * FROM bebe;
+
+-- Insere registros na tabela mãe
+INSERT INTO mae (nome, telefone, endereco, dt_nasc)
+VALUES ("Gertrudes", "2140028922", "Rua dos bobos"    ,  "1987-06-20"),
+	    ("Maria",     "2140028923", "Rua da flor"      , "1964-08-13"),
+	    ("Lourdes",   "2140123422", "Avenida Paulista" , "1959-02-02"),
+	    ("Karina",    "2112567942", "Ponte Rio-Niterói", "1996-07-28")
+       ;
+       
+INSERT INTO medico 
+VALUES (DEFAULT ,"1A2B3-DF", "TONICO",DEFAULT);   
+
+
+    
+
+DROP TABLE mae;
+DROP TABLE medico;
+DROP TABLE bebe;
+
+
+
+DELETE FROM mae;
